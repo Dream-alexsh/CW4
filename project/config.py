@@ -7,6 +7,8 @@ BASEDIR = os.path.abspath(os.path.dirname(__file__))
 class BaseConfig:
     SECRET_KEY = "you-will-never-guess"
     JSON_AS_ASCII = False
+    JWT_ALGORITHM = 'HS256'
+    PWD_HASH_NAME = 'sha256'
 
     ITEMS_PER_PAGE = 12
 
@@ -14,6 +16,7 @@ class BaseConfig:
 
     TOKEN_EXPIRE_MINUTES = 15
     TOKEN_EXPIRE_DAYS = 130
+
 
     PWD_HASH_SALT = base64.b64decode("salt")
     PWD_HASH_ITERATIONS = 100_000
@@ -28,5 +31,8 @@ class DevelopmentConfig(BaseConfig):
     DEBUG = True
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(
-        os.path.dirname(BASEDIR), "project.db"
+        os.path.dirname(BASEDIR), "project/project.db"
     )
+
+    RESTX_JSON = {'ensure_ascii': False, 'indent': 2}
+    SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -1,27 +1,22 @@
-from flask_restx import abort, Namespace, Resource
+from flask_restx import Resource, Namespace
 
-from project.exceptions import ItemNotFound
-from project.services import GenresService
-from project.setup_db import db
-
-genres_ns = Namespace("genres")
+from implemented import genre_service
+from project.dao.serialization.genre import GenreSchema
 
 
-@genres_ns.route("/")
+genre_ns = Namespace('genres')
+
+
+@genre_ns.route('/')
 class GenresView(Resource):
-    @genres_ns.response(200, "OK")
     def get(self):
-        """Get all genres"""
-        return GenresService(db.session).get_all_genres()
+        genre = genre_service.get_all()
+        return GenreSchema(many=True).dump(genre), 200
 
 
-@genres_ns.route("/<int:genre_id>")
+@genre_ns.route('/<int:rid>/')
 class GenreView(Resource):
-    @genres_ns.response(200, "OK")
-    @genres_ns.response(404, "Genre not found")
-    def get(self, genre_id: int):
-        """Get genre by id"""
-        try:
-            return GenresService(db.session).get_item_by_id(genre_id)
-        except ItemNotFound:
-            abort(404, message="Genre not found")
+    def get(self, rid):
+        genre = genre_service.get_by_id(rid)
+        return GenreSchema().dump(genre), 200
+

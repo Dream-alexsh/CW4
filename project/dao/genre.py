@@ -1,14 +1,20 @@
-from sqlalchemy.orm.scoping import scoped_session
+from flask import request
 
-from project.dao.models import Genre
+from project.dao.base import BaseDAO
+from project.dao.model.genre import Genre
+from flask import current_app
 
 
-class GenreDAO:
-    def __init__(self, session: scoped_session):
-        self._db_session = session
-
-    def get_by_id(self, pk):
-        return self._db_session.query(Genre).filter(Genre.id == pk).one_or_none()
+class GenreDAO(BaseDAO):
+    def get_by_id(self, genre_id: int):
+        return self.session.query(Genre).get(genre_id)
 
     def get_all(self):
-        return self._db_session.query(Genre).all()
+        genre_all = self.session.query(Genre)
+        args = request.args
+        if 'page' in args:
+            page = int(args.get('page'))
+            genres = genre_all.paginate(page, current_app.config['ITEMS_PER_PAGE'], False)
+            return genres.items
+        return genre_all
+
