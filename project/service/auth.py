@@ -50,7 +50,7 @@ class AuthService:
     def get_email_from_token(self, token: str):
         try:
             data = jwt.decode(token,
-                              current_app.config.get('JWT_SECRET'),
+                              current_app.config.get('SECRET_KEY'),
                               algorithms=[current_app.config.get('JWT_ALGORITHM')])
             email = data.get('email')
             return email
@@ -76,7 +76,7 @@ class AuthService:
             token = data.split("Bearer ")[-1]
 
             try:
-                jwt.decode(token, current_app.config.get('JWT_SECRET'),
+                jwt.decode(token, current_app.config.get('SECRET_KEY'),
                            algorithms=[current_app.config.get('JWT_ALGORITHM')])
             except Exception as e:
                 abort(401, f'JWT decode error {e}')
