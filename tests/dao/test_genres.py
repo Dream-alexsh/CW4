@@ -1,7 +1,7 @@
 import pytest
 
-from project.dao import GenreDAO
-from project.dao.models import Genre
+from project.dao.genre import GenreDAO
+from project.dao.model.genre import Genre
 
 
 class TestGenreDAO:

@@ -10,7 +10,7 @@ class GenreDAO(BaseDAO):
         return self.session.query(Genre).get(genre_id)
 
     def get_all(self):
-        genre_all = self.session.query(Genre)
+        genre_all = self.session.query(Genre).all()
         args = request.args
         if 'page' in args:
             page = int(args.get('page'))

@@ -10,7 +10,7 @@ class TestConfig:
         assert app_config["TESTING"] is False
         assert app_config["DEBUG"] is True
         assert app_config["SQLALCHEMY_DATABASE_URI"] == "sqlite:///" + os.path.join(
-            os.path.dirname(BASEDIR), "project.db"
+            os.path.dirname(BASEDIR), "project/project.db"
         )
         assert app_config["SQLALCHEMY_ECHO"] is True
 

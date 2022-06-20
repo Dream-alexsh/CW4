@@ -1,9 +1,10 @@
-from flask import request
+from flask import request, redirect, url_for
 from flask_restx import Resource, Namespace, abort
 
 from implemented import auth_service, user_service
 from project.dao.serialization.user import UserSchema
 from project.exceptions import ItemNotFound, IncorrectPassword
+from project.views.auth import auth_ns
 
 user_ns = Namespace('user')
 

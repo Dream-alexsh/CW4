@@ -28,10 +28,8 @@ class TestingConfig(BaseConfig):
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
-    SQLALCHEMY_ECHO = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(
         os.path.dirname(BASEDIR), "project/project.db"
     )
-
     RESTX_JSON = {'ensure_ascii': False, 'indent': 2}
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+

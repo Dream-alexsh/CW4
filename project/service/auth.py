@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 import jwt
-from flask import current_app, request
+from flask import current_app, request, redirect, url_for
 from flask_restx import abort
 
 from project.exceptions import InvalidToken, IncorrectPassword
@@ -71,6 +71,7 @@ class AuthService:
         def wrapper(*args, **kwargs):
             if 'Authorization' not in request.headers:
                 abort(401, 'No authorization data passed')
+                # redirect(location='http://localhost:25000/#/login', code=401)
 
             data = request.headers['Authorization']
             token = data.split("Bearer ")[-1]
@@ -80,6 +81,7 @@ class AuthService:
                            algorithms=[current_app.config.get('JWT_ALGORITHM')])
             except Exception as e:
                 abort(401, f'JWT decode error {e}')
+                # redirect(location='http://localhost:25000/#/login/', code=401)
 
             return func(*args, **kwargs)
 
